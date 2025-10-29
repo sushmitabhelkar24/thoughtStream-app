@@ -1,15 +1,17 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import { postSignup , postLogin } from "./controllers/user.js";
 import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
 
-app.use(express.json());
-app.use(cors());
 
 const PORT = process.env.PORT || 8080;
+
+app.use(express.json());
+app.use(cors());
 
 app.get("/health",(req,res)=>{
     res.json({
@@ -29,6 +31,10 @@ const connectDB = async()=>{
        console.log("MONGODB connection error",error)
     }
 };
+
+app.post("/signup",postSignup);
+
+app.post("/login",postLogin);
 
 app.listen((PORT),()=>{
     console.log(`Server is running on PORT ${PORT}`);
